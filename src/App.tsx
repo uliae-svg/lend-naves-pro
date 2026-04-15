@@ -355,8 +355,8 @@ const Hero = ({ onQuizOpen }: { onQuizOpen: () => void }) => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center bg-hero-gradient overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 text-center z-10">
+    <section className="relative h-screen flex items-start md:items-center justify-center bg-hero-gradient overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 text-center z-10 pt-28 md:pt-0">
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

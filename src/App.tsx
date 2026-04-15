@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Phone, 
@@ -19,7 +19,7 @@ import {
 
 // --- Components ---
 
-const QuizModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+const QuizModal = ({ onClose }: { onClose: () => void }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     type: '',
@@ -28,6 +28,11 @@ const QuizModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }
     phone: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
 
   const nextStep = () => setStep(s => s + 1);
   const prevStep = () => setStep(s => s - 1);
@@ -35,14 +40,12 @@ const QuizModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       onClose();
       setIsSubmitted(false);
       setStep(1);
     }, 3000);
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -59,8 +62,9 @@ const QuizModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
         className="relative w-full max-w-xl bg-[#161920] border border-gray-800 rounded-2xl overflow-hidden shadow-2xl"
       >
-        <button 
+        <button
           onClick={onClose}
+          aria-label="Закрыть"
           className="absolute top-4 right-4 text-gray-400 hover:text-white z-10"
         >
           <X size={24} />
@@ -166,21 +170,24 @@ const QuizModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }
   );
 };
 
-const CallbackModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+const CallbackModal = ({ onClose }: { onClose: () => void }) => {
   const [phone, setPhone] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       onClose();
       setIsSubmitted(false);
       setPhone('');
     }, 3000);
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -197,8 +204,9 @@ const CallbackModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
         className="relative w-full max-w-md bg-[#161920] border border-gray-800 rounded-2xl overflow-hidden shadow-2xl"
       >
-        <button 
+        <button
           onClick={onClose}
+          aria-label="Закрыть"
           className="absolute top-4 right-4 text-gray-400 hover:text-white z-10"
         >
           <X size={24} />
@@ -240,7 +248,7 @@ const CallbackModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => vo
   );
 };
 
-const Navbar = ({ onQuizOpen, onCallbackOpen }: { onQuizOpen: () => void, onCallbackOpen: () => void }) => {
+const Navbar = ({ onCallbackOpen }: { onCallbackOpen: () => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -507,7 +515,7 @@ const Portfolio = () => {
                 src={img.url} 
                 alt={img.title} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                referrerPolicy="no-referrer"
+                referrerPolicy="no-referrer-when-downgrade"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                 <p className="text-white font-medium text-lg">{img.title}</p>
@@ -741,16 +749,9 @@ export default function App() {
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isCallbackOpen, setIsCallbackOpen] = useState(false);
 
-  const scrollToContacts = () => {
-    document.getElementById('contacts')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen pb-20 md:pb-0">
-      <Navbar 
-        onQuizOpen={() => setIsQuizOpen(true)} 
-        onCallbackOpen={() => setIsCallbackOpen(true)} 
-      />
+      <Navbar onCallbackOpen={() => setIsCallbackOpen(true)} />
       <Hero onQuizOpen={() => setIsQuizOpen(true)} />
       <Advantages />
       <Portfolio />
@@ -760,18 +761,19 @@ export default function App() {
 
       <AnimatePresence>
         {isQuizOpen && (
-          <QuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
+          <QuizModal onClose={() => setIsQuizOpen(false)} />
         )}
         {isCallbackOpen && (
-          <CallbackModal isOpen={isCallbackOpen} onClose={() => setIsCallbackOpen(false)} />
+          <CallbackModal onClose={() => setIsCallbackOpen(false)} />
         )}
       </AnimatePresence>
 
       {/* Floating WhatsApp Button (Desktop) */}
       <a 
-        href="https://wa.me/78001234567" 
-        target="_blank" 
+        href="https://wa.me/78001234567"
+        target="_blank"
         rel="noopener noreferrer"
+        aria-label="Написать в WhatsApp"
         className="hidden md:flex fixed bottom-8 right-8 w-16 h-16 bg-[#25D366] text-white rounded-full items-center justify-center shadow-2xl z-40 hover:scale-110 transition-transform"
       >
         <MessageSquare size={32} />

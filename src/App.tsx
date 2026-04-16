@@ -253,11 +253,10 @@ const Navbar = ({ onCallbackOpen }: { onCallbackOpen: () => void }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const root = document.getElementById('root');
+    const handleScroll = () => setIsScrolled((root?.scrollTop ?? 0) > 50);
+    root?.addEventListener('scroll', handleScroll, { passive: true });
+    return () => root?.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
@@ -277,7 +276,7 @@ const Navbar = ({ onCallbackOpen }: { onCallbackOpen: () => void }) => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0a0c10]/90 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-[background-color,padding,box-shadow] duration-300 ${isScrolled ? 'bg-[#0a0c10] md:backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <span className="text-2xl font-serif font-bold text-gold-400 tracking-tight">НавесПро</span>
@@ -780,7 +779,7 @@ export default function App() {
       </a>
 
       {/* Mobile Sticky Action Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#161920]/95 backdrop-blur-md border-t border-gray-800 p-3 flex gap-3 z-50">
+      <div className="md:hidden fixed bottom-0 left-0 w-full bg-[#161920] border-t border-gray-800 p-3 flex gap-3 z-50">
         <button 
           onClick={() => setIsCallbackOpen(true)}
           className="flex-1 flex items-center justify-center gap-2 bg-gold-500 text-gold-950 py-3 rounded-lg font-bold text-sm"

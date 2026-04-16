@@ -19,6 +19,22 @@
 }
 
 @layer base {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #root {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  section[id] {
+    scroll-margin-top: 72px;
+  }
+
   body {
     @apply bg-[#0a0c10] text-gray-200 font-sans antialiased;
   }

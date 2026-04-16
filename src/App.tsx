@@ -362,31 +362,31 @@ const Hero = ({ onQuizOpen }: { onQuizOpen: () => void }) => {
   };
 
   return (
-    <section className="relative h-screen flex items-start md:items-center justify-center bg-hero-gradient overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 text-center z-10 pt-28 md:pt-0">
-        <motion.p 
+    <section className="relative min-h-screen flex items-start md:items-center justify-center bg-hero-gradient overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 text-center z-10 pt-24 pb-24 md:pt-0 md:pb-0">
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-gold-400 font-medium tracking-[0.3em] uppercase text-sm mb-6"
+          className="text-gold-400 font-medium tracking-[0.3em] uppercase text-sm mb-4 md:mb-6"
         >
           Премиум решения
         </motion.p>
-        
-        <motion.h1 
+
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-5xl md:text-8xl font-bold text-white mb-8 leading-tight"
+          className="text-5xl md:text-8xl font-bold text-white mb-5 md:mb-8 leading-tight"
         >
           Навесы <span className="text-gold-400">под ключ</span>
         </motion.h1>
-        
-        <motion.p 
+
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed"
+          className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed"
         >
           Проектируем и устанавливаем навесы премиум-класса для вашего дома. 
           Индивидуальный дизайн, надёжные материалы, безупречный монтаж.

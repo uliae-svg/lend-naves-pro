@@ -97,7 +97,7 @@ const QuizModal = ({ onClose }: { onClose: () => void }) => {
                       <button 
                         key={opt}
                         onClick={() => { setFormData({...formData, type: opt}); nextStep(); }}
-                        className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gold-500 hover:bg-gold-500/5 text-gray-300 transition-all"
+                        className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gold-500 hover:bg-gold-500/5 text-gray-300 transition-[border-color,background-color]"
                       >
                         {opt}
                       </button>
@@ -111,7 +111,7 @@ const QuizModal = ({ onClose }: { onClose: () => void }) => {
                       <button 
                         key={opt}
                         onClick={() => { setFormData({...formData, size: opt}); nextStep(); }}
-                        className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gold-500 hover:bg-gold-500/5 text-gray-300 transition-all"
+                        className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gold-500 hover:bg-gold-500/5 text-gray-300 transition-[border-color,background-color]"
                       >
                         {opt}
                       </button>
@@ -125,7 +125,7 @@ const QuizModal = ({ onClose }: { onClose: () => void }) => {
                       <button 
                         key={opt}
                         onClick={() => { setFormData({...formData, material: opt}); nextStep(); }}
-                        className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gold-500 hover:bg-gold-500/5 text-gray-300 transition-all"
+                        className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gold-500 hover:bg-gold-500/5 text-gray-300 transition-[border-color,background-color]"
                       >
                         {opt}
                       </button>
@@ -313,9 +313,11 @@ const Navbar = ({ onCallbackOpen }: { onCallbackOpen: () => void }) => {
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button 
+        <button
           className="lg:hidden text-gray-300"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
+          aria-expanded={isMenuOpen}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
